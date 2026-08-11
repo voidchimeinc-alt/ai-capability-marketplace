@@ -23,13 +23,13 @@ const problemExamples = [
 export function LandingHero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 atmosphere grain" />
+      <div className="pointer-events-none absolute inset-0 atmosphere grain" aria-hidden />
       <Container className="relative grid min-h-[calc(100vh-4rem)] items-center gap-12 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:py-20">
         <div className="space-y-8">
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ y: 10 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.45 }}
             className="eyebrow inline-flex items-center gap-2"
           >
             <Sparkles className="h-3.5 w-3.5 text-[var(--accent)]" />
@@ -37,9 +37,9 @@ export function LandingHero() {
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
+            initial={{ y: 14 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.55, delay: 0.04 }}
             className="display max-w-3xl text-5xl text-[var(--foreground)] sm:text-6xl lg:text-7xl"
           >
             Find the right AI.
@@ -50,18 +50,18 @@ export function LandingHero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.12 }}
+            initial={{ y: 14 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.55, delay: 0.1 }}
             className="max-w-xl text-lg leading-relaxed text-[var(--muted)] sm:text-xl"
           >
             {brand.description}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.18 }}
+            initial={{ y: 14 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.55, delay: 0.14 }}
             className="flex flex-wrap items-center gap-3"
           >
             <ButtonLink href={brand.cta.primary.href} size="lg">
@@ -78,9 +78,9 @@ export function LandingHero() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
+          initial={{ y: 16 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.6, delay: 0.12 }}
           className="relative"
         >
           <div className="rounded-[2rem] border border-[var(--border-strong)] bg-white/70 p-6 shadow-[var(--shadow-soft)] backdrop-blur-xl sm:p-8">
