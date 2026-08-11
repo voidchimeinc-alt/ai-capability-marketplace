@@ -51,11 +51,6 @@ function writeSlugs(slugs: string[]) {
   emit();
 }
 
-function readSlugsCached(): string[] {
-  const value = readSlugs();
-  return value.length === 0 ? EMPTY : value;
-}
-
 type ShortlistContextValue = {
   slugs: string[];
   has: (slug: string) => boolean;

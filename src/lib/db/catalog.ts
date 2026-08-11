@@ -159,7 +159,14 @@ export const seedCatalog: CatalogStore = {
           ...(b.useCaseSlugs ?? []),
           ...b.preferredProjectTypes,
         ].join(" ");
-        if (!matchesQuery(blob, filters.q)) return false;
+        const terms = filters.q
+          .toLowerCase()
+          .split(/[\s,/|]+/)
+          .filter((t) => t.length > 1);
+        const hit = terms.length
+          ? terms.some((term) => matchesQuery(blob, term))
+          : matchesQuery(blob, filters.q);
+        if (!hit) return false;
       }
       return true;
     });
