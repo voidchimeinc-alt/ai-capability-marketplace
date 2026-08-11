@@ -1,8 +1,7 @@
-import { Badge } from "@/components/ui/badge";
+import { ToolCard } from "@/components/atlas/tool-card";
 import { Container } from "@/components/ui/container";
 import { getCatalog } from "@/lib/db/catalog";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "AI Atlas",
@@ -23,7 +22,8 @@ export default async function ToolsDirectoryPage({
         <p className="eyebrow">AI Atlas</p>
         <h1 className="display text-5xl sm:text-6xl">Find the right few.</h1>
         <p className="text-lg text-[var(--muted)]">
-          Curated AI systems with strengths, weaknesses, personality, and honest unknowns — not a vanity catalog.
+          Decision cards — best-for, strengths, cost posture, and editorial personality. Not a vanity
+          catalog.
         </p>
       </div>
 
@@ -59,25 +59,7 @@ export default async function ToolsDirectoryPage({
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => (
-          <Link
-            key={tool.id}
-            href={`/ai/tools/${tool.slug}`}
-            className="rounded-[1.5rem] border border-[var(--border)] bg-white/70 p-5 transition hover:bg-white focus-ring"
-          >
-            <div className="mb-3 flex items-start justify-between gap-3">
-              <div>
-                <h2 className="text-lg font-medium">{tool.name}</h2>
-                <p className="mt-1 text-xs uppercase tracking-wide text-[var(--muted)]">
-                  {tool.kind.replaceAll("_", " ")}
-                </p>
-              </div>
-              <Badge tone="muted">{tool.category}</Badge>
-            </div>
-            <p className="text-sm leading-relaxed text-[var(--muted)]">{tool.shortDescription}</p>
-            {tool.personality ? (
-              <p className="mt-4 text-sm italic text-[var(--accent-strong)]">{tool.personality.label}</p>
-            ) : null}
-          </Link>
+          <ToolCard key={tool.id} tool={tool} />
         ))}
       </div>
 

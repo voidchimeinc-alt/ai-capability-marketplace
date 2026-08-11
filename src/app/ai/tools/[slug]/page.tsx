@@ -1,7 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
-import { CAPABILITY_LABELS } from "@/types/domain";
+import {
+  CAPABILITY_LABELS,
+  COST_POSTURE_LABELS,
+  SCORE_PROVENANCE_LABELS,
+  type CapabilityDimension,
+} from "@/types/domain";
 import { formatUnknown } from "@/lib/utils/cn";
+import {
+  deriveCostPosture,
+  deriveEnterprisePosture,
+  formatCapabilityScore,
+} from "@/lib/matching/scoring";
 import { getCatalog } from "@/lib/db/catalog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -35,7 +45,9 @@ export default async function ToolProfilePage({
   const tool = getCatalog().getToolBySlug(slug);
   if (!tool) notFound();
 
-  const scores = Object.entries(tool.capabilities) as [keyof typeof CAPABILITY_LABELS, number | null | undefined][];
+  const dimensions = Object.keys(CAPABILITY_LABELS) as CapabilityDimension[];
+  const costPosture = deriveCostPosture(tool);
+  const enterprisePosture = deriveEnterprisePosture(tool);
 
   return (
     <Container className="py-14 sm:py-20">
@@ -44,6 +56,8 @@ export default async function ToolProfilePage({
           <Badge tone="accent">{tool.category}</Badge>
           <Badge tone="muted">{tool.kind.replaceAll("_", " ")}</Badge>
           <Badge tone="warning">Seed / demo data</Badge>
+          <Badge>Cost {COST_POSTURE_LABELS[costPosture]}</Badge>
+          <Badge tone="muted">Enterprise {enterprisePosture}</Badge>
         </div>
         <h1 className="display text-5xl sm:text-6xl">{tool.name}</h1>
         <p className="text-xl leading-relaxed text-[var(--muted)]">{tool.shortDescription}</p>
@@ -53,6 +67,12 @@ export default async function ToolProfilePage({
             <p className="mt-2 display text-2xl">{tool.personality.label}</p>
             <p className="mt-2 text-[var(--muted)]">{tool.personality.summary}</p>
             <p className="mt-3 text-xs text-[var(--muted)]">Editorial, not a scientific measurement.</p>
+          </div>
+        ) : null}
+        {tool.editorialTake ? (
+          <div className="rounded-[1.5rem] border border-[var(--border)] bg-white/70 p-5">
+            <p className="eyebrow">Editorial take</p>
+            <p className="mt-2 text-[var(--muted)]">{tool.editorialTake}</p>
           </div>
         ) : null}
       </div>
@@ -68,35 +88,55 @@ export default async function ToolProfilePage({
 
         <aside className="space-y-6">
           <div className="rounded-[1.5rem] border border-[var(--border)] bg-white/70 p-5">
-            <p className="eyebrow mb-4">Capability profile</p>
+            <p className="eyebrow mb-2">Capability profile</p>
+            <p className="mb-4 text-xs text-[var(--muted)]">
+              Provenance is labeled per score. Missing values show as{" "}
+              <span className="font-medium text-[var(--foreground)]">Not yet evaluated</span> — never
+              invented.
+            </p>
             <div className="space-y-3">
-              {scores.map(([key, value]) => (
-                <div key={key}>
-                  <div className="mb-1 flex justify-between text-sm">
-                    <span>{CAPABILITY_LABELS[key]}</span>
-                    <span className="text-[var(--muted)]">{value == null ? "Unknown" : `${value}/10`}</span>
+              {dimensions.map((key) => {
+                const { display, provenance, value } = formatCapabilityScore(tool, key);
+                return (
+                  <div key={key}>
+                    <div className="mb-1 flex justify-between gap-3 text-sm">
+                      <span>{CAPABILITY_LABELS[key]}</span>
+                      <span className="text-right text-[var(--muted)]">
+                        {display}
+                        {provenance ? (
+                          <span className="ml-2 text-[0.7rem] uppercase tracking-wide">
+                            {SCORE_PROVENANCE_LABELS[provenance]}
+                          </span>
+                        ) : null}
+                      </span>
+                    </div>
+                    <div className="h-2 overflow-hidden rounded-full bg-black/5">
+                      <div
+                        className="h-full rounded-full bg-[var(--accent)]"
+                        style={{ width: value == null ? "0%" : `${value * 10}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-black/5">
-                    <div
-                      className="h-full rounded-full bg-[var(--accent)]"
-                      style={{ width: value == null ? "0%" : `${value * 10}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <p className="mt-4 text-xs text-[var(--muted)]">
-              Editorial seed estimates · confidence: {tool.meta.confidence}
+              Source confidence: {tool.meta.confidence} · {tool.meta.source}
             </p>
           </div>
 
           <div className="rounded-[1.5rem] border border-[var(--border)] bg-white/70 p-5 space-y-3 text-sm">
-            <Row label="Pricing" value={formatUnknown(tool.pricingNotes)} />
+            <Row label="Cost posture" value={COST_POSTURE_LABELS[costPosture]} />
+            <Row label="Pricing notes" value={formatUnknown(tool.pricingNotes)} />
             <Row label="Pricing model" value={tool.pricingModel} />
+            <Row label="Enterprise posture" value={enterprisePosture} />
             <Row label="API" value={tool.hasApi == null ? "Unknown" : tool.hasApi ? "Yes" : "No"} />
             <Row label="Deployment" value={tool.deployment} />
-            <Row label="Integrations" value={tool.integrations.length ? tool.integrations.join(", ") : "Unknown"} />
-            <Row label="Source" value={tool.meta.source} />
+            <Row
+              label="Integrations"
+              value={tool.integrations.length ? tool.integrations.join(", ") : "Unknown"}
+            />
+            <Row label="Evidence source" value={tool.meta.source} />
           </div>
         </aside>
       </div>

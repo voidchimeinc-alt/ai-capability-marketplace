@@ -19,3 +19,18 @@ Cool mist atmosphere, deep ink, teal accent, Syne + DM Sans. Avoid purple AI cli
 ## 2026-08-11 — Recommendation engine V1
 
 Weighted rule matching (use-case 40%, capability 20%, cost 15%, integrations 15%, enterprise 10%). Explanations are deterministic templates over scores.
+
+## 2026-08-11 — AI Stack as the central recommendation object
+
+**Decision:** “Find My AI Stack” returns a multi-component stack (knowledge, retrieval, model, automation, integration, human escalation, implementation) rather than a single-tool tip.
+
+**Why:** The product thesis is decision → implementation. A lone “use ChatGPT” answer fails the core job.
+
+**How:** Use-case blueprints select relevant roles; each role is filled with the existing weighted matcher. Natural-language input is mapped via keyword interpretation to curated use cases.
+
+## 2026-08-11 — Score provenance
+
+**Decision:** Capability scores carry provenance (`tested | sourced | editorial | community`). Null scores render as **Not yet evaluated**. Seed scores default to `editorial`.
+
+**Why:** Unsupported numbers must not look like lab truth.
+

@@ -6,25 +6,72 @@ import { Container } from "@/components/ui/container";
 import { brand } from "@/lib/brand";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const problemExamples = [
-  { label: "Reduce customer support costs", href: "/ai/recommend?problem=reduce-customer-support-costs" },
-  { label: "Automate recruitment", href: "/ai/recommend?problem=automate-recruitment" },
-  { label: "Build an AI sales assistant", href: "/ai/recommend?problem=build-ai-sales-assistant" },
-  { label: "Analyse documents", href: "/ai/recommend?problem=analyse-documents" },
-  { label: "Automate finance", href: "/ai/recommend?problem=automate-finance" },
-  { label: "Build internal knowledge search", href: "/ai/recommend?problem=internal-knowledge-search" },
-  { label: "Automate workflows", href: "/ai/recommend?problem=automate-workflows" },
-  { label: "Generate marketing content", href: "/ai/recommend?problem=generate-marketing-content" },
-  { label: "Build an AI agent", href: "/ai/recommend?problem=build-ai-agent" },
-  { label: "Something else", href: "/ai/recommend" },
+  {
+    label: "Reduce customer support costs",
+    href: "/ai/recommend?problem=reduce-customer-support-costs",
+    prompt:
+      "I want to reduce customer support costs by automating repetitive tickets while keeping humans involved for complex cases.",
+  },
+  {
+    label: "Automate recruitment",
+    href: "/ai/recommend?problem=automate-recruitment",
+    prompt: "I want to automate recruitment screening without turning hiring into a black box.",
+  },
+  {
+    label: "Build an AI sales assistant",
+    href: "/ai/recommend?problem=build-ai-sales-assistant",
+    prompt: "I want an AI sales assistant that researches accounts and drafts outreach for human review.",
+  },
+  {
+    label: "Analyse documents",
+    href: "/ai/recommend?problem=analyse-documents",
+    prompt: "I want to analyse contracts and long documents for risks and structured answers.",
+  },
+  {
+    label: "Automate finance",
+    href: "/ai/recommend?problem=automate-finance",
+    prompt: "I want to automate finance operations like invoice classification with strong controls.",
+  },
+  {
+    label: "Build internal knowledge search",
+    href: "/ai/recommend?problem=internal-knowledge-search",
+    prompt: "I want internal knowledge search with grounded answers and citations.",
+  },
+  {
+    label: "Automate workflows",
+    href: "/ai/recommend?problem=automate-workflows",
+    prompt: "I want to automate brittle manual workflows across our existing tools.",
+  },
+  {
+    label: "Generate marketing content",
+    href: "/ai/recommend?problem=generate-marketing-content",
+    prompt: "I want to generate on-brand marketing content drafts faster with human review.",
+  },
+  {
+    label: "Build an AI agent",
+    href: "/ai/recommend?problem=build-ai-agent",
+    prompt: "I want to build an AI agent that can complete multi-step tool-use workflows.",
+  },
 ];
 
 export function LandingHero() {
+  const router = useRouter();
+  const [prompt, setPrompt] = useState("");
+
+  function submitProblem(text: string) {
+    const q = text.trim();
+    if (!q) return;
+    router.push(`/ai/recommend?q=${encodeURIComponent(q)}`);
+  }
+
   return (
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 atmosphere grain" aria-hidden />
-      <Container className="relative grid min-h-[calc(100vh-4rem)] items-center gap-12 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:py-20">
+      <Container className="relative grid min-h-[calc(100vh-4rem)] items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
         <div className="space-y-8">
           <motion.p
             initial={{ y: 10 }}
@@ -84,19 +131,60 @@ export function LandingHero() {
           className="relative"
         >
           <div className="rounded-[2rem] border border-[var(--border-strong)] bg-white/70 p-6 shadow-[var(--shadow-soft)] backdrop-blur-xl sm:p-8">
-            <p className="eyebrow mb-3">What are you trying to accomplish?</p>
-            <h2 className="display mb-6 text-3xl sm:text-4xl">I have a business problem.</h2>
-            <div className="grid gap-2">
-              {problemExamples.map((item) => (
+            <p className="eyebrow mb-3">Primary experience</p>
+            <h2 className="display mb-2 text-3xl sm:text-4xl">What are you trying to accomplish?</h2>
+            <p className="mb-5 text-sm text-[var(--muted)]">
+              Describe the outcome in plain language. Optional context comes next.
+            </p>
+
+            <form
+              className="space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                submitProblem(prompt);
+              }}
+            >
+              <textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                rows={4}
+                placeholder='e.g. "I want to automate customer support but keep humans involved for complex cases."'
+                className="w-full resize-y rounded-2xl border border-[var(--border-strong)] bg-white px-4 py-3 text-sm leading-relaxed outline-none focus:border-[var(--accent)]"
+              />
+              <button
+                type="submit"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-5 text-sm font-medium text-white transition hover:bg-[var(--accent-strong)]"
+              >
+                Find My AI Stack
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+
+            <div className="mt-6">
+              <p className="mb-3 text-xs font-medium uppercase tracking-[0.14em] text-[var(--muted)]">
+                Suggestions
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {problemExamples.map((item) => (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => {
+                      setPrompt(item.prompt);
+                      router.push(item.href);
+                    }}
+                    className="rounded-full border border-[var(--border)] bg-[var(--background)] px-3 py-1.5 text-left text-xs text-[var(--foreground)] transition hover:border-[var(--border-strong)] hover:bg-white focus-ring"
+                  >
+                    {item.label}
+                  </button>
+                ))}
                 <Link
-                  key={item.href + item.label}
-                  href={item.href}
-                  className="group flex items-center justify-between rounded-2xl border border-transparent bg-[var(--background)] px-4 py-3 text-sm transition hover:border-[var(--border-strong)] hover:bg-white focus-ring"
+                  href="/ai/recommend"
+                  className="rounded-full border border-transparent px-3 py-1.5 text-xs text-[var(--muted)] underline-offset-2 hover:underline focus-ring"
                 >
-                  <span>{item.label}</span>
-                  <ArrowRight className="h-4 w-4 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+                  Something else
                 </Link>
-              ))}
+              </div>
             </div>
           </div>
         </motion.div>

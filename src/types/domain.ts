@@ -36,6 +36,27 @@ export type CapabilityDimension =
 
 export type CapabilityScores = Partial<Record<CapabilityDimension, number | null>>;
 
+/** How a quantitative score was produced. Never invent provenance. */
+export type ScoreProvenance = "tested" | "sourced" | "editorial" | "community";
+
+export type CapabilityProvenance = Partial<Record<CapabilityDimension, ScoreProvenance>>;
+
+export type CostPosture = "low" | "medium" | "high" | "unknown";
+
+export type ImplementationComplexity = "simple" | "moderate" | "advanced";
+
+export type StackRoleId =
+  | "knowledge"
+  | "retrieval"
+  | "model"
+  | "application"
+  | "automation"
+  | "integration"
+  | "agent_orchestration"
+  | "voice"
+  | "human_escalation"
+  | "implementation";
+
 export interface SourceMeta {
   source: string;
   sourceUrl?: string | null;
@@ -64,15 +85,20 @@ export interface ToolEntity {
   bestUseCases: string[];
   avoidWhen: string[];
   capabilities: CapabilityScores;
+  /** Optional per-dimension provenance. Missing entries default to editorial for seed scores. */
+  capabilityProvenance?: CapabilityProvenance;
   personality?: Personality;
   pricingModel: PricingModel;
   pricingNotes: string; // may be "Unknown"
+  costPosture?: CostPosture;
+  enterprisePosture?: "low" | "medium" | "high" | "unknown";
   hasApi: boolean | null;
   deployment: DeploymentModel;
   integrations: string[];
   websiteUrl?: string | null;
   useCaseSlugs: string[];
   tags: string[];
+  editorialTake?: string;
   meta: SourceMeta;
 }
 
@@ -203,12 +229,61 @@ export interface AiStack {
 export interface RecommendationContext {
   problemSlug?: string;
   customProblem?: string;
+  q?: string;
   companySize?: string;
   industry?: string;
   currentTools?: string[];
   budget?: string;
   desiredOutcome?: string;
   urgency?: string;
+}
+
+export interface StackRoleSpec {
+  id: StackRoleId;
+  label: string;
+  purpose: string;
+  /** Entity kinds preferred for this role */
+  preferredKinds: EntityKind[];
+  /** Soft keyword hints for ranking */
+  tagHints: string[];
+  required: boolean;
+}
+
+export interface StackComponentRecommendation {
+  role: StackRoleSpec;
+  tool: ToolEntity | null;
+  /** Human / process layer with no catalog tool */
+  processLabel?: string;
+  why: string[];
+  roleInStack: string;
+  alternatives: { tool: ToolEntity; why: string }[];
+  complexity: ImplementationComplexity;
+  costPosture: CostPosture;
+  watchOuts: string[];
+  matchScore: number;
+}
+
+export interface AlternativeStackSummary {
+  name: string;
+  summary: string;
+  whenBetter: string;
+  components: { roleLabel: string; toolName: string }[];
+}
+
+export interface StackRecommendationResult {
+  interpretedProblem: string;
+  useCaseSlug: string | null;
+  useCaseName: string | null;
+  confidence: "low" | "medium" | "high";
+  interpretationNotes: string[];
+  stackName: string;
+  components: StackComponentRecommendation[];
+  whyThisStack: string[];
+  alternatives: AlternativeStackSummary[];
+  complexity: ImplementationComplexity;
+  costPosture: CostPosture;
+  risks: string[];
+  builderHints: string[];
 }
 
 export const CAPABILITY_LABELS: Record<CapabilityDimension, string> = {
@@ -224,4 +299,24 @@ export const CAPABILITY_LABELS: Record<CapabilityDimension, string> = {
   agentic: "Agentic capability",
   enterprise_readiness: "Enterprise readiness",
   automation: "Automation",
+};
+
+export const SCORE_PROVENANCE_LABELS: Record<ScoreProvenance, string> = {
+  tested: "Tested",
+  sourced: "Sourced",
+  editorial: "Editorial",
+  community: "Community",
+};
+
+export const COST_POSTURE_LABELS: Record<CostPosture, string> = {
+  low: "Low",
+  medium: "Medium",
+  high: "High",
+  unknown: "Unknown",
+};
+
+export const COMPLEXITY_LABELS: Record<ImplementationComplexity, string> = {
+  simple: "Simple",
+  moderate: "Moderate",
+  advanced: "Advanced",
 };
