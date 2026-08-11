@@ -34,3 +34,11 @@ Weighted rule matching (use-case 40%, capability 20%, cost 15%, integrations 15%
 
 **Why:** Unsupported numbers must not look like lab truth.
 
+## 2026-08-11 — AI Network matching V1
+
+**Decision:** Stack→builder matching uses deterministic weights — capability 40%, proof of work 25%, technology 20%, availability 10%, location/timezone 5%. UI shows “Why this builder matches” with percentage breakdowns.
+
+**Why:** Network must answer “who can build this stack?” without black-box ranking or freelancer-marketplace UX.
+
+**Scope:** Discovery + shortlist + Build-this project brief only. No payments/escrow/chat.
+

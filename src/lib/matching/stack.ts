@@ -298,53 +298,5 @@ export function recommendStack(context: RecommendationContext): StackRecommendat
   };
 }
 
-export function matchBuildersForStack(
-  context: RecommendationContext,
-  stack: StackRecommendationResult,
-  limit = 3,
-) {
-  const catalog = getCatalog();
-  const hints = [
-    ...stack.builderHints,
-    ...(stack.components.map((c) => c.tool?.name).filter(Boolean) as string[]),
-    ...(context.currentTools ?? []),
-  ].map((h) => h.toLowerCase());
-
-  return catalog
-    .listBuilders()
-    .map((builder) => {
-      const blob = [...builder.capabilities, ...builder.specializations, ...builder.stack, builder.bio]
-        .join(" ")
-        .toLowerCase();
-      const hits = hints.filter((h) => h.length > 2 && blob.includes(h));
-      const capabilityMatch = Math.min(10, 4 + hits.length);
-      const techMatch = stack.components
-        .filter((c) => c.tool)
-        .some((c) => builder.stack.some((s) => s.toLowerCase().includes(c.tool!.name.toLowerCase())))
-        ? 8
-        : 5;
-      const useCaseExp = stack.useCaseName
-        ? builder.projects.some((p) =>
-            [p.problem, p.solution, p.title].join(" ").toLowerCase().includes(
-              stack.useCaseName!.toLowerCase().split(" ")[0]!,
-            ),
-          )
-          ? 9
-          : 5
-        : 5;
-      const availability = builder.availability === "available" ? 9 : builder.availability === "limited" ? 6 : 2;
-      const score = capabilityMatch * 0.4 + techMatch * 0.2 + useCaseExp * 0.2 + availability * 0.1 + 6 * 0.1;
-      const why = [
-        hits.length
-          ? `Stack overlap: ${hits.slice(0, 4).join(", ")}.`
-          : "General AI implementation experience for this class of problem.",
-        techMatch >= 8
-          ? "Has worked with technologies adjacent to this stack."
-          : "Can implement adjacent tooling even if exact products differ.",
-        `${builder.trust.verifiedProjects} verified proof-of-work projects · ${builder.availability}.`,
-      ];
-      return { builder, score, why };
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
-}
+export { matchBuildersForStack } from "@/lib/matching/builders";
+export type { BuilderMatchResult } from "@/types/domain";

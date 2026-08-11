@@ -157,9 +157,13 @@ export interface BuilderProject {
   role: string;
   complexity: "low" | "medium" | "high";
   outcome: string;
+  /** Explicit outcome verification. If omitted, derived from verificationStatus. */
+  outcomeVerified?: boolean | null;
   verificationStatus: VerificationStatus;
   demoUrl?: string | null;
 }
+
+export type ModerationStatus = "approved" | "pending" | "flagged";
 
 export interface Builder {
   id: string;
@@ -172,6 +176,8 @@ export interface Builder {
   specializations: string[];
   capabilities: string[];
   stack: string[];
+  /** Curated use-case slugs this builder has demonstrated. */
+  useCaseSlugs?: string[];
   experienceYears: number | null;
   hourlyRateUsd: number | null;
   pricingNotes: string;
@@ -185,7 +191,30 @@ export interface Builder {
     responseTimeHours: number | null;
     completionRate: number | null;
   };
+  moderationStatus?: ModerationStatus;
   meta: SourceMeta;
+}
+
+export interface BuilderMatchBreakdown {
+  capability: number;
+  proofOfWork: number;
+  technology: number;
+  availability: number;
+  location: number;
+}
+
+export interface BuilderMatchResult {
+  builder: Builder;
+  score: number;
+  scorePercent: number;
+  breakdown: BuilderMatchBreakdown;
+  breakdownPercent: BuilderMatchBreakdown;
+  matchedCapabilities: string[];
+  matchedTechnologies: string[];
+  relevantProjects: BuilderProject[];
+  canBuildComponents: string[];
+  why: string[];
+  summary: string;
 }
 
 export interface CompanyProject {

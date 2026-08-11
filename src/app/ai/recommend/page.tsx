@@ -57,7 +57,7 @@ export default async function RecommendPage({
   };
 
   const stack = hasInput ? recommendStack(context) : null;
-  const builders = stack ? matchBuildersForStack(context, stack) : [];
+  const builders = stack ? matchBuildersForStack(context, stack, 3) : [];
 
   return (
     <Container className="py-14 sm:py-20">
@@ -277,22 +277,23 @@ export default async function RecommendPage({
 
           <section className="rounded-[2rem] border border-[var(--border)] bg-[var(--foreground)] p-6 text-white sm:p-8">
             <p className="eyebrow text-white/60">Find builders</p>
-            <h3 className="mt-2 display text-3xl">Need someone to build this?</h3>
+            <h3 className="mt-2 display text-3xl">Builders who can build this</h3>
             <p className="mt-2 max-w-2xl text-white/75">
-              Matched on capability, stack overlap, and proof of work — not résumé keywords.
+              Explainable matching on capability, proof of work, technology, and availability — not
+              résumé keywords.
             </p>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {builders.map(({ builder, why, score }) => (
+              {builders.map((match) => (
                 <Link
-                  key={builder.id}
-                  href={`/builders/${builder.slug}`}
+                  key={match.builder.id}
+                  href={`/builders/${match.builder.slug}`}
                   className="rounded-2xl bg-white/10 p-4 transition hover:bg-white/15"
                 >
-                  <p className="text-sm text-white/60">{builder.title}</p>
-                  <p className="mt-1 text-lg font-medium">{builder.name}</p>
-                  <p className="mt-2 text-xs text-white/60">Match {score.toFixed(1)}</p>
+                  <p className="text-sm text-white/60">{match.builder.title}</p>
+                  <p className="mt-1 text-lg font-medium">{match.builder.name}</p>
+                  <p className="mt-2 text-xs text-white/60">Match {match.scorePercent}%</p>
                   <ul className="mt-3 space-y-1 text-sm text-white/75">
-                    {why.map((w) => (
+                    {match.why.slice(0, 3).map((w) => (
                       <li key={w}>• {w}</li>
                     ))}
                   </ul>
@@ -300,11 +301,31 @@ export default async function RecommendPage({
               ))}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <ButtonLink href="/network" variant="subtle">
-                Browse AI Network
+              <ButtonLink
+                href={`/network/matches?${new URLSearchParams({
+                  ...(params.problem ? { problem: params.problem } : {}),
+                  ...(params.q ? { q: params.q } : {}),
+                  ...(params.budget ? { budget: params.budget } : {}),
+                  ...(params.tools ? { tools: params.tools } : {}),
+                }).toString()}`}
+                variant="subtle"
+              >
+                Find Builders
               </ButtonLink>
-              <ButtonLink href="/projects/new" variant="ghost" className="text-white hover:bg-white/10">
-                Post this as a project
+              <ButtonLink
+                href={`/projects/new?${new URLSearchParams({
+                  ...(params.problem ? { problem: params.problem } : {}),
+                  ...(params.q ? { q: params.q } : {}),
+                  stack: stack.stackName,
+                  from: "stack",
+                }).toString()}`}
+                variant="ghost"
+                className="text-white hover:bg-white/10"
+              >
+                Build this
+              </ButtonLink>
+              <ButtonLink href="/network" variant="ghost" className="text-white hover:bg-white/10">
+                Browse AI Network
               </ButtonLink>
             </div>
           </section>

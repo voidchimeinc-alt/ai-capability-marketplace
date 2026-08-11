@@ -15,6 +15,7 @@ const nav = [
   { href: "/ai/compare", label: "Compare" },
   { href: "/arena", label: "Arena" },
   { href: "/network", label: "Network" },
+  { href: "/network/shortlist", label: "Shortlist" },
   { href: "/projects", label: "Projects" },
 ];
 

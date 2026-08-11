@@ -63,12 +63,25 @@ describe("AI stack recommendation", () => {
     }
   });
 
-  it("matches builders to the recommended stack", () => {
+  it("matches builders to the recommended stack with explainable breakdown", () => {
     const context = { problemSlug: "reduce-customer-support-costs" };
     const stack = recommendStack(context);
     const builders = matchBuildersForStack(context, stack);
     expect(builders.length).toBeGreaterThan(0);
     expect(builders[0]?.why.length).toBeGreaterThan(0);
+    expect(builders[0]?.scorePercent).toBeGreaterThan(0);
+    expect(builders[0]?.breakdownPercent.capability).toBeGreaterThan(0);
+    expect(builders[0]?.summary.length).toBeGreaterThan(0);
+  });
+});
+
+describe("builder discovery filters", () => {
+  it("filters builders by capability and technology keywords", () => {
+    const catalog = getCatalog();
+    const rag = catalog.listBuilders({ q: "RAG" });
+    expect(rag.length).toBeGreaterThan(0);
+    const n8n = catalog.listBuilders({ technology: "n8n" });
+    expect(n8n.length).toBeGreaterThan(0);
   });
 });
 
