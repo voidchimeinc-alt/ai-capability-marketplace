@@ -120,16 +120,22 @@ function pickForRole(
         currentTools: context.currentTools,
         tagHints: role.tagHints,
       });
-      // Role-specific fit dominates so a general chat app does not win every layer.
+      // Role-specific fit dominates ranking so a general chat app does not win every layer.
       const blob = [...tool.tags, tool.category, tool.name, ...tool.bestFor, tool.shortDescription]
         .join(" ")
         .toLowerCase();
       const hintHits = role.tagHints.filter((h) => blob.includes(h.toLowerCase())).length;
       const kindBonus = role.preferredKinds.includes(tool.kind) ? 1.5 : 0;
       const roleFit = hintHits * 2.2 + kindBonus;
-      return { tool, ...scored, score: scored.score + roleFit };
+      return {
+        tool,
+        ...scored,
+        rankScore: scored.score + roleFit,
+        // Keep the explainable weighted score on the 0–10-ish scale for UI.
+        displayScore: Math.min(10, Number(scored.score.toFixed(1))),
+      };
     })
-    .sort((a, b) => b.score - a.score);
+    .sort((a, b) => b.rankScore - a.rankScore);
 
   const best = ranked[0];
   const alts = ranked.slice(1, 4).map((item) => ({
@@ -166,7 +172,7 @@ function pickForRole(
     complexity: roleComplexity(role, best.tool),
     costPosture: deriveCostPosture(best.tool),
     watchOuts: best.caveats.slice(0, 3),
-    matchScore: best.score,
+    matchScore: best.displayScore,
   };
 }
 
