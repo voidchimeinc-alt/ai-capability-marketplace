@@ -11,6 +11,7 @@ import {
 
 const STORAGE_KEY = "ai-workbench.shortlist";
 const listeners = new Set<() => void>();
+const EMPTY: string[] = [];
 
 function emit() {
   listeners.forEach((l) => l());
@@ -30,18 +31,29 @@ function subscribe(listener: () => void) {
 }
 
 function readSlugs(): string[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined") return EMPTY;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as string[]) : [];
+    if (!raw) return EMPTY;
+    const parsed = JSON.parse(raw) as string[];
+    return parsed.length ? parsed : EMPTY;
   } catch {
-    return [];
+    return EMPTY;
   }
+}
+
+function getServerSnapshot() {
+  return EMPTY;
 }
 
 function writeSlugs(slugs: string[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(slugs));
   emit();
+}
+
+function readSlugsCached(): string[] {
+  const value = readSlugs();
+  return value.length === 0 ? EMPTY : value;
 }
 
 type ShortlistContextValue = {
@@ -56,7 +68,7 @@ type ShortlistContextValue = {
 const ShortlistContext = createContext<ShortlistContextValue | null>(null);
 
 export function ShortlistProvider({ children }: { children: ReactNode }) {
-  const slugs = useSyncExternalStore(subscribe, readSlugs, () => [] as string[]);
+  const slugs = useSyncExternalStore(subscribe, readSlugs, getServerSnapshot);
 
   const add = useCallback((slug: string) => {
     const next = readSlugs();
