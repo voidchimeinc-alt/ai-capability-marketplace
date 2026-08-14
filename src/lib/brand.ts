@@ -8,6 +8,11 @@ export const brand = {
   positioning: "The anchor point between AI decisions and AI implementation.",
   description:
     "Discover AI tools, compare what actually works, and connect with people who can turn it into something useful.",
+  colors: {
+    ink: "#17181C",
+    teal: "#12C6B6",
+    canvas: "#F7F8F6",
+  },
   products: {
     atlas: { name: "AI Atlas", href: "/ai/tools", blurb: "Discover AI systems with clarity." },
     arena: { name: "AI Arena", href: "/arena", blurb: "Compare capabilities, not hype." },

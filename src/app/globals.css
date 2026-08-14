@@ -2,6 +2,8 @@
 
 :root {
   /* Brand atmosphere — cool mist, deep ink, teal intelligence */
+  --brand-ink: #17181c;
+  --brand-teal: #12c6b6;
   --background: #f3f6f8;
   --background-elevated: #ffffff;
   --foreground: #0b1220;
@@ -40,6 +42,8 @@
   --color-accent-soft: var(--accent-soft);
   --color-accent-strong: var(--accent-strong);
   --color-highlight: var(--highlight);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-teal: var(--brand-teal);
   --color-rank-gold: var(--rank-gold);
   --color-rank-silver: var(--rank-silver);
   --color-rank-bronze: var(--rank-bronze);
@@ -89,6 +93,14 @@ body {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.045em;
   line-height: 0.95;
+}
+
+.logo-wordmark {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .eyebrow {

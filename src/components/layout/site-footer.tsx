@@ -37,7 +37,7 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-[var(--border)] bg-[color-mix(in_oklab,#0b1220_3%,transparent)]">
       <Container className="grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="max-w-sm space-y-4">
-          <Logo />
+          <Logo size="lg" />
           <p className="text-sm leading-relaxed text-[var(--muted)]">{brand.description}</p>
           <p className="text-xs text-[var(--muted)]">Working name. Brand tokens are centralized for rename.</p>
         </div>

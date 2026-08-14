@@ -5,6 +5,7 @@ import { recommendTools } from "@/lib/matching/recommend";
 import { matchBuildersForStack, recommendStack } from "@/lib/matching/stack";
 import { formatCapabilityScore } from "@/lib/matching/scoring";
 import { brand } from "@/lib/brand";
+import { pitonMark } from "@/lib/brand-mark";
 
 describe("seed catalog", () => {
   it("has curated tools, builders, and use cases", () => {
@@ -118,5 +119,12 @@ describe("brand tokens", () => {
   it("exposes a renameable product name", () => {
     expect(brand.name).toBeTruthy();
     expect(brand.cta.primary.href).toBe("/ai/recommend");
+  });
+
+  it("locks the Piton mark colors", () => {
+    expect(brand.colors.ink).toBe("#17181C");
+    expect(brand.colors.teal).toBe("#12C6B6");
+    expect(pitonMark.arrow.startsWith("M40")).toBe(true);
+    expect(pitonMark.dot.r).toBeGreaterThan(3);
   });
 });

@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     title: brand.name,
     description: brand.description,
     type: "website",
+    siteName: brand.name,
   },
 };
 

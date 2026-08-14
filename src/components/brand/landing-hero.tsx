@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
+import { PitonMark } from "@/components/brand/piton-mark";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { brand } from "@/lib/brand";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -77,9 +78,9 @@ export function LandingHero() {
             initial={{ y: 10 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.45 }}
-            className="eyebrow inline-flex items-center gap-2"
+            className="eyebrow inline-flex items-center gap-2.5"
           >
-            <Sparkles className="h-3.5 w-3.5 text-[var(--accent)]" />
+            <PitonMark className="h-5 w-auto text-[var(--brand-ink)]" />
             {brand.name}
           </motion.p>
 

@@ -1,8 +1,16 @@
 # Decisions
 
-## 2026-08-11 — Working name: AI Workbench
+## 2026-08-14 — Piton brand mark
 
-Temporary brand. All user-facing strings read from `src/lib/brand.ts`.
+**Decision:** The product lockup is the charcoal A-arrow with a teal lowercase *i* in the right counter, plus the PITON wordmark. Implement as SVG in `src/components/brand/piton-mark.tsx`; do not replace it with a letter in a rounded square.
+
+**Why:** Founder-supplied mark. The arrow is the anchor/ascent; the *i* is intelligence. Colors live in `brand.colors` (`ink` / `teal`).
+
+**How:** Header/footer use `Logo`. Favicon is `src/app/icon.svg`. Apple and Open Graph images reuse the same geometry.
+
+## 2026-08-11 — Working name
+
+User-facing product name reads from `src/lib/brand.ts`. Current working name: Piton.
 
 ## 2026-08-11 — Seed-first data adapter
 
