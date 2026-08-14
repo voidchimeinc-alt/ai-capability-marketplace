@@ -23,7 +23,7 @@ export const benchmarks: BenchmarkChallenge[] = [
     ],
     methodology:
       "Seed challenge only. Scores are editorial estimates based on public product positioning and general capability fit; no live runs were performed.",
-    evaluator: "AI Workbench editorial seed",
+    evaluator: "Platform editorial seed",
     source: "Editorial seed (demo)",
     executionDate: null,
   },
@@ -46,7 +46,7 @@ export const benchmarks: BenchmarkChallenge[] = [
     ],
     methodology:
       "Seed challenge only. Scores are editorial estimates for marketplace demonstration; no controlled coding benchmark was executed.",
-    evaluator: "AI Workbench editorial seed",
+    evaluator: "Platform editorial seed",
     source: "Editorial seed (demo)",
     executionDate: null,
   },
@@ -69,7 +69,7 @@ export const benchmarks: BenchmarkChallenge[] = [
     ],
     methodology:
       "Seed challenge only. Results are estimated from tool positioning and common workflows, not from a live research evaluation.",
-    evaluator: "AI Workbench editorial seed",
+    evaluator: "Platform editorial seed",
     source: "Editorial seed (demo)",
     executionDate: null,
   },
@@ -92,7 +92,7 @@ export const benchmarks: BenchmarkChallenge[] = [
     ],
     methodology:
       "Seed challenge only. Scores are editorial estimates for demonstration and should not be read as measured context-window performance.",
-    evaluator: "AI Workbench editorial seed",
+    evaluator: "Platform editorial seed",
     source: "Editorial seed (demo)",
     executionDate: null,
   },
@@ -115,7 +115,7 @@ export const benchmarks: BenchmarkChallenge[] = [
     ],
     methodology:
       "Seed challenge only. Scores are editorial estimates for marketplace examples; no creative panel or live generation test was run.",
-    evaluator: "AI Workbench editorial seed",
+    evaluator: "Platform editorial seed",
     source: "Editorial seed (demo)",
     executionDate: null,
   },
@@ -138,7 +138,7 @@ export const benchmarks: BenchmarkChallenge[] = [
     ],
     methodology:
       "Seed challenge only. Scores are editorial estimates of agent-workflow suitability and are not live execution results.",
-    evaluator: "AI Workbench editorial seed",
+    evaluator: "Platform editorial seed",
     source: "Editorial seed (demo)",
     executionDate: null,
   },

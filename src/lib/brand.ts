@@ -2,9 +2,10 @@
  * Central brand tokens. Rename the product here — nowhere else.
  */
 export const brand = {
-  name: "AI Workbench",
-  shortName: "Workbench",
+  name: "Piton",
+  shortName: "Piton",
   tagline: "Find the right AI. Find the right people. Build the right thing.",
+  positioning: "The anchor point between AI decisions and AI implementation.",
   description:
     "Discover AI tools, compare what actually works, and connect with people who can turn it into something useful.",
   products: {

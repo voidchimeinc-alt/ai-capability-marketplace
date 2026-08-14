@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Builders who can build this",
-  description: "Explainable stack-to-builder matching for AI Workbench.",
+  description: "Explainable stack-to-builder matching.",
 };
 
 function buildProjectHref(params: {
