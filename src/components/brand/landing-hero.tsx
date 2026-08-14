@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import { PitonMark } from "@/components/brand/piton-mark";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Container } from "@/components/ui/container";
 import { brand } from "@/lib/brand";
@@ -78,9 +77,8 @@ export function LandingHero() {
             initial={{ y: 10 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.45 }}
-            className="eyebrow inline-flex items-center gap-2.5"
+            className="eyebrow inline-flex items-center gap-2"
           >
-            <PitonMark className="h-5 w-auto text-[var(--brand-ink)]" />
             {brand.name}
           </motion.p>
 
