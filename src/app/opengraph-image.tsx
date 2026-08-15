@@ -1,12 +1,15 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { brand } from "@/lib/brand";
-import { pitonMark } from "@/lib/brand-mark";
 
 export const alt = `${brand.name} — ${brand.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  const icon = await readFile(join(process.cwd(), "public/brand/piton-icon.png"));
+
   return new ImageResponse(
     (
       <div
@@ -22,22 +25,7 @@ export default function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          <svg width="92" height="101" viewBox={pitonMark.viewBox} fill="none">
-            <path d={pitonMark.arrow} fill={brand.colors.ink} />
-            <circle
-              cx={pitonMark.dot.cx}
-              cy={pitonMark.dot.cy}
-              r={pitonMark.dot.r}
-              fill={brand.colors.teal}
-            />
-            <path
-              d={pitonMark.stem}
-              stroke={brand.colors.teal}
-              strokeWidth={pitonMark.stemWidth}
-              strokeLinecap="round"
-              fill="none"
-            />
-          </svg>
+          <img src={icon} width={112} height={112} alt="" />
           <div
             style={{
               fontSize: 84,

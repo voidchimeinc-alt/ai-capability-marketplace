@@ -4,33 +4,20 @@ import { cn } from "@/lib/utils/cn";
 export function PitonMark({
   className,
   title,
-  ink = "currentColor",
-  teal = "var(--brand-teal)",
 }: {
   className?: string;
   title?: string;
-  ink?: string;
-  teal?: string;
 }) {
   return (
-    <svg
-      viewBox={pitonMark.viewBox}
-      fill="none"
-      className={cn("overflow-visible", className)}
-      role={title ? "img" : undefined}
-      aria-hidden={title ? undefined : true}
-      aria-label={title}
-    >
-      {title ? <title>{title}</title> : null}
-      <path d={pitonMark.arrow} fill={ink} />
-      <circle cx={pitonMark.dot.cx} cy={pitonMark.dot.cy} r={pitonMark.dot.r} fill={teal} />
-      <path
-        d={pitonMark.stem}
-        stroke={teal}
-        strokeWidth={pitonMark.stemWidth}
-        strokeLinecap="round"
-        fill="none"
-      />
-    </svg>
+    // Exact founder artwork — do not replace with a reconstructed glyph.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={pitonMark.src}
+      alt={title ?? ""}
+      width={64}
+      height={64}
+      draggable={false}
+      className={cn("select-none", className)}
+    />
   );
 }

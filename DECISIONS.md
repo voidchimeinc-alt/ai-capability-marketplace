@@ -1,12 +1,12 @@
 # Decisions
 
-## 2026-08-14 — Piton brand mark
+## 2026-08-15 — Piton brand mark
 
-**Decision:** The product lockup is the charcoal A-arrow with a teal lowercase *i* in the right counter, plus the PITON wordmark. Implement as SVG in `src/components/brand/piton-mark.tsx`; do not replace it with a letter in a rounded square.
+**Decision:** The product lockup is the founder icon (dark rounded square, cream angular P/piton, teal joint) plus the PITON wordmark. Use the supplied artwork in `public/brand/piton-icon.png` — do not substitute a reconstructed A-arrow.
 
-**Why:** Founder-supplied mark. The arrow is the anchor/ascent; the *i* is intelligence. Colors live in `brand.colors` (`ink` / `teal`).
+**Why:** Founder-supplied mark. The spike is the piton; the angular P is the name.
 
-**How:** Header/footer use `Logo`. Favicon is `src/app/icon.svg`. Apple and Open Graph images reuse the same geometry.
+**How:** Header/footer `Logo` renders the PNG mark + PITON. Favicon/Apple icon are the same artwork.
 
 ## 2026-08-11 — Working name
 

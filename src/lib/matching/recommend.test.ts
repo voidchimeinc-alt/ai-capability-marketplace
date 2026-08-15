@@ -122,9 +122,8 @@ describe("brand tokens", () => {
   });
 
   it("locks the Piton mark colors", () => {
-    expect(brand.colors.ink).toBe("#17181C");
-    expect(brand.colors.teal).toBe("#12C6B6");
-    expect(pitonMark.arrow.startsWith("M40")).toBe(true);
-    expect(pitonMark.dot.r).toBeGreaterThan(3);
+    expect(brand.colors.navy).toBe("#060F20");
+    expect(brand.colors.teal).toBe("#0A7D79");
+    expect(pitonMark.src).toBe("/brand/piton-icon.png");
   });
 });

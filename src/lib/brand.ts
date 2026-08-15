@@ -10,7 +10,9 @@ export const brand = {
     "Discover AI tools, compare what actually works, and connect with people who can turn it into something useful.",
   colors: {
     ink: "#17181C",
-    teal: "#12C6B6",
+    navy: "#060F20",
+    cream: "#FDF9F3",
+    teal: "#0A7D79",
     canvas: "#F7F8F6",
   },
   products: {

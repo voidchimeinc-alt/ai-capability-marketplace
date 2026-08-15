@@ -12,8 +12,7 @@ export function Logo({
   markOnly?: boolean;
   size?: "sm" | "md" | "lg";
 }) {
-  const markClass =
-    size === "lg" ? "h-12 w-auto" : size === "sm" ? "h-6 w-auto" : "h-8 w-auto";
+  const markClass = size === "lg" ? "h-12 w-12" : size === "sm" ? "h-6 w-6" : "h-8 w-8";
   const wordClass =
     size === "lg" ? "text-[1.85rem]" : size === "sm" ? "text-[0.95rem]" : "text-[1.22rem]";
 
@@ -21,9 +20,9 @@ export function Logo({
     <Link
       href="/"
       aria-label={brand.name}
-      className={cn("group inline-flex items-center gap-3 focus-ring rounded-lg", className)}
+      className={cn("group inline-flex items-center gap-2.5 focus-ring rounded-lg", className)}
     >
-      <PitonMark className={cn(markClass, "text-[var(--brand-ink)]")} title={markOnly ? brand.name : undefined} />
+      <PitonMark className={markClass} title={markOnly ? brand.name : undefined} />
       {markOnly ? null : (
         <span className={cn("logo-wordmark text-[var(--brand-ink)]", wordClass)}>{brand.name}</span>
       )}
