@@ -9,6 +9,7 @@ export const contentType = "image/png";
 
 export default async function OpenGraphImage() {
   const icon = await readFile(join(process.cwd(), "public/brand/piton-icon.png"));
+  const iconSrc = `data:image/png;base64,${icon.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -25,7 +26,7 @@ export default async function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          <img src={icon} width={112} height={112} alt="" />
+          <img src={iconSrc} width={112} height={112} alt="" />
           <div
             style={{
               fontSize: 84,
