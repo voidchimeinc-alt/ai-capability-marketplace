@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand atmosphere — cool mist, deep ink, teal intelligence */
+  --brand-ink: #17181c;
+  --brand-navy: #060f20;
+  --brand-teal: #0a7d79;
+  --background: #f3f6f8;
+  --background-elevated: #ffffff;
+  --foreground: #0b1220;
+  --muted: #5b677a;
+  --border: color-mix(in oklab, #0b1220 10%, transparent);
+  --border-strong: color-mix(in oklab, #0b1220 18%, transparent);
+
+  --accent: #0f766e;
+  --accent-soft: #d9f3ef;
+  --accent-strong: #0b5f59;
+  --highlight: #c4f1e8;
+  --warning: #b45309;
+  --danger: #b42318;
+
+  --rank-gold: #b7791f;
+  --rank-silver: #64748b;
+  --rank-bronze: #9a6b4f;
+
+  --shadow-soft: 0 18px 50px color-mix(in oklab, #0b1220 8%, transparent);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-strong: var(--accent-strong);
+  --color-highlight: var(--highlight);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-teal: var(--brand-teal);
+  --color-rank-gold: var(--rank-gold);
+  --color-rank-silver: var(--rank-silver);
+  --color-rank-bronze: var(--rank-bronze);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+.atmosphere {
+  background:
+    radial-gradient(1200px 600px at 12% -10%, color-mix(in oklab, #5eead4 28%, transparent), transparent 60%),
+    radial-gradient(900px 500px at 88% 8%, color-mix(in oklab, #93c5fd 22%, transparent), transparent 55%),
+    radial-gradient(800px 500px at 50% 100%, color-mix(in oklab, #fde68a 12%, transparent), transparent 50%),
+    linear-gradient(180deg, #f7fafb 0%, #eef3f6 48%, #f3f6f8 100%);
+}
+
+.grain::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.logo-wordmark {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.prose-muted {
+  color: var(--muted);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
